@@ -1,0 +1,34 @@
+directive @hasRole(role: Role!) on FIELD_DEFINITION | OBJECT
+directive @user(id: ID!) on MUTATION | QUERY | FIELD
+
+enum Role {
+    ADMIN
+    OWNER
+}
+
+type Todo {
+  id: ID!
+  text: String!
+  done: Boolean!
+  user: User!
+}
+
+type User @hasRole(role: OWNER) {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  todos: [Todo!]!
+  user(id: String!): User @hasRole(role: ADMIN)
+}
+
+input NewTodo {
+  text: String!
+  userId: String!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+  deleteUser(userID: ID!): Boolean @hasRole(role: OWNER)
+}
