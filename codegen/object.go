@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"fmt"
 	"go/types"
 	"strconv"
 	"strings"
@@ -64,6 +65,8 @@ func (b *builder) buildObject(typ *ast.Definition) (*Object, error) {
 		obj.Implements = append(obj.Implements, b.Schema.Types[intf.Name])
 	}
 
+	fmt.Printf("~~~~~~~start %s's fields build~~~~~~~\n", obj.Name)
+	defer fmt.Printf("~~~~~~~end %s's fields build~~~~~~~\n", obj.Name)
 	for _, field := range typ.Fields {
 		if strings.HasPrefix(field.Name, "__") {
 			continue

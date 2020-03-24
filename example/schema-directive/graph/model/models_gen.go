@@ -8,9 +8,32 @@ import (
 	"strconv"
 )
 
+type Human interface {
+	IsHuman()
+}
+
+type Person interface {
+	IsPerson()
+}
+
+type Cuctomer struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	Pii  *Pii   `json:"pii"`
+}
+
+func (Cuctomer) IsHuman()  {}
+func (Cuctomer) IsPerson() {}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
+}
+
+type Pii struct {
+	ID       string `json:"id"`
+	Pii      string `json:"pii"`
+	SuperPii string `json:"superPii"`
 }
 
 type Todo struct {
@@ -23,18 +46,20 @@ type Todo struct {
 type Role string
 
 const (
-	RoleAdmin Role = "ADMIN"
-	RoleOwner Role = "OWNER"
+	RoleSuperAdmin Role = "SUPER_ADMIN"
+	RoleAdmin      Role = "ADMIN"
+	RoleOwner      Role = "OWNER"
 )
 
 var AllRole = []Role{
+	RoleSuperAdmin,
 	RoleAdmin,
 	RoleOwner,
 }
 
 func (e Role) IsValid() bool {
 	switch e {
-	case RoleAdmin, RoleOwner:
+	case RoleSuperAdmin, RoleAdmin, RoleOwner:
 		return true
 	}
 	return false

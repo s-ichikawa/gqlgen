@@ -2,6 +2,7 @@ directive @hasRole(role: Role!) on FIELD_DEFINITION | OBJECT
 directive @user(id: ID!) on MUTATION | QUERY | FIELD
 
 enum Role {
+    SUPER_ADMIN
     ADMIN
     OWNER
 }
@@ -13,14 +14,36 @@ type Todo {
   user: User!
 }
 
-type User @hasRole(role: OWNER) {
+interface Person @hasRole(role: OWNER) {
+    id: ID!
+    name: String!
+}
+
+union Human = User | Cuctomer
+
+type User implements Person {
   id: ID!
   name: String!
+  pii: Pii
+}
+
+type Cuctomer implements Person {
+    id: ID!
+    name: String!
+    pii: Pii
+}
+
+type Pii @hasRole(role: ADMIN) {
+  id: ID!
+  pii: String!
+  superPii: String!  @hasRole(role: SUPER_ADMIN)
 }
 
 type Query {
   todos: [Todo!]!
   user(id: String!): User @hasRole(role: ADMIN)
+  users: [User]
+  humans: [Human]
 }
 
 input NewTodo {

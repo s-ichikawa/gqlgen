@@ -6,6 +6,20 @@ type User struct {
 	Role Role
 }
 
+func (u *User) IsPerson() {
+
+}
+func (u *User) IsHuman() {
+
+}
+
 func (u *User) HasRole(role Role) bool {
-	return u.Role == role || u.Role == RoleAdmin
+	switch u.Role {
+	case RoleSuperAdmin:
+		return true
+	case RoleAdmin:
+		return role != RoleSuperAdmin
+	default:
+		return u.Role == role
+	}
 }
