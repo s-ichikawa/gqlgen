@@ -88,7 +88,7 @@ func (b *builder) bindField(obj *Object, f *Field) (errret error) {
 			if err != nil {
 				errret = err
 			}
-			f.Directives = append(dirs, f.Directives...)
+			f.Directives = append(f.Directives, dirs...)
 		}
 	}()
 
@@ -418,7 +418,7 @@ func (f *Field) ImplDirectives() []*Directive {
 	}
 	for i := range f.Directives {
 		if !f.Directives[i].Builtin && f.Directives[i].IsLocation(loc) {
-			d = append(d, f.Directives[i])
+			d = append([]*Directive{f.Directives[i]}, d...)
 		}
 	}
 	return d

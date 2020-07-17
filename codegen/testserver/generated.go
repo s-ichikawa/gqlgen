@@ -6338,16 +6338,16 @@ func (ec *executionContext) _Query_directiveDouble(ctx context.Context, field gr
 			return ec.resolvers.Query().DirectiveDouble(rctx)
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.Directive1 == nil {
-				return nil, errors.New("directive directive1 is not implemented")
-			}
-			return ec.directives.Directive1(ctx, nil, directive0)
-		}
-		directive2 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.Directive2 == nil {
 				return nil, errors.New("directive directive2 is not implemented")
 			}
-			return ec.directives.Directive2(ctx, nil, directive1)
+			return ec.directives.Directive2(ctx, nil, directive0)
+		}
+		directive2 := func(ctx context.Context) (interface{}, error) {
+			if ec.directives.Directive1 == nil {
+				return nil, errors.New("directive directive1 is not implemented")
+			}
+			return ec.directives.Directive1(ctx, nil, directive1)
 		}
 
 		tmp, err := directive2(rctx)
@@ -7820,16 +7820,16 @@ func (ec *executionContext) _Subscription_directiveDouble(ctx context.Context, f
 			return ec.resolvers.Subscription().DirectiveDouble(rctx)
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
-			if ec.directives.Directive1 == nil {
-				return nil, errors.New("directive directive1 is not implemented")
-			}
-			return ec.directives.Directive1(ctx, nil, directive0)
-		}
-		directive2 := func(ctx context.Context) (interface{}, error) {
 			if ec.directives.Directive2 == nil {
 				return nil, errors.New("directive directive2 is not implemented")
 			}
-			return ec.directives.Directive2(ctx, nil, directive1)
+			return ec.directives.Directive2(ctx, nil, directive0)
+		}
+		directive2 := func(ctx context.Context) (interface{}, error) {
+			if ec.directives.Directive1 == nil {
+				return nil, errors.New("directive directive1 is not implemented")
+			}
+			return ec.directives.Directive1(ctx, nil, directive1)
 		}
 
 		tmp, err := directive2(rctx)

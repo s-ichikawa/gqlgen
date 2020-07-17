@@ -155,10 +155,14 @@ func TestDirectives(t *testing.T) {
 				return nil, nil
 			},
 			Directive1: func(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error) {
-				return next(ctx)
+				res, err = next(ctx)
+				ok := "dir1_" + *(res.(*string)) + "_dir1"
+				return &ok, err
 			},
 			Directive2: func(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error) {
-				return next(ctx)
+				res, err = next(ctx)
+				ok := "dir2_" + *(res.(*string)) + "_dir2"
+				return &ok, err
 			},
 			Order: func(ctx context.Context, obj interface{}, next graphql.Resolver, location string) (res interface{}, err error) {
 				order := []string{location}
@@ -257,7 +261,7 @@ func TestDirectives(t *testing.T) {
 
 			c.MustPost(`query { directiveDouble }`, &resp)
 
-			require.Equal(t, "Ok", resp.DirectiveDouble)
+			require.Equal(t, "dir1_dir2_Ok_dir2_dir1", resp.DirectiveDouble)
 		})
 
 		t.Run("directive is not implemented", func(t *testing.T) {
